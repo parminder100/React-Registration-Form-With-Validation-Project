@@ -101,7 +101,6 @@ const UiForm = () => {
             <Button onClick={handleCounter} variant="primary" type="submit">
             Submit
             </Button>
-            {/* <p>{counter}</p> */}
         </Form>
         <div style={{display: record.length === 0 ? "none" : "block"}}  className="form-data-content">
             <div className="form-data">
