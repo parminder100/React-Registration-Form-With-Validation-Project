@@ -1,19 +1,19 @@
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useState } from "react";
+import { useState} from "react";
 import "../UiForm/UiForm.css";
 
 const UiForm = () => {
-  const [record, setRecord] = useState([]);
-  const [submitted, setSubmitted] = useState(false);
-  const [successmessage, setSuccessmessage] = useState(false);
   const [userregistration, setUserregistration] = useState({
     firstname: "",
     lastname: "",
     email: "",
   });
+  const [record, setRecord] = useState([]);
+  const [submitted, setSubmitted] = useState(false);
   const [formerror, setFormError] = useState(userregistration);
+  const [successmessage, setSuccessmessage] = useState(false);
 
   const handleInput = (e) => {
     const name = e.target.name;
@@ -27,11 +27,14 @@ const UiForm = () => {
       ...userregistration,
       id: new Date().getTime().toString(),
     };
-    setRecord([...record, newrecord]);
     setSubmitted(true);
-    setSuccessmessage(true);
-    setFormError(validate(userregistration));
-
+    if(submitted === true){
+      setRecord([...record, newrecord]);
+      setSuccessmessage(true);
+    }
+    else{
+      setFormError(validate(userregistration));
+    }
     setUserregistration({ firstname: "", lastname: "", email: "" });
   };
 
@@ -50,7 +53,8 @@ const UiForm = () => {
   };
   return (
     <>
-        {Object.keys(formerror).length === 0 && successmessage ? (<p className="success-message alert-success">Successfully registered</p>) : ("")}
+        {/* {Object.keys(formerror).length === 0 && successmessage ? (<p className="success-message alert-success">Successfully registered</p>) : ("")} */}
+        {successmessage ? (<p className="success-message alert-success">Successfully registered</p>): ("")}
         <Form onSubmit={handleSubmit} className="form-content">
             <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>First Name</Form.Label>
@@ -92,7 +96,7 @@ const UiForm = () => {
             Submit
             </Button>
         </Form>
-        <div style={{display: submitted ? "block" : "none"}}  className="form-data-content">
+        <div style={{display: record.length === 0 ? "none" : "block"}}  className="form-data-content">
             <div className="form-data">
                 {record.map((e) => {
                     return (
