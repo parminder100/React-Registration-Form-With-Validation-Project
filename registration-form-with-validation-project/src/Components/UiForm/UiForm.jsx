@@ -13,7 +13,12 @@ const UiForm = () => {
   const [record, setRecord] = useState([]);
   const [submitted, setSubmitted] = useState(false);
   const [formerror, setFormError] = useState(userregistration);
-  const [successmessage, setSuccessmessage] = useState(false);
+  const [successmessage, setSuccessMessage] = useState(false);
+  const [counter, setCounter] = useState(0);
+
+  const handleCounter = () =>{
+    setCounter(count => count + 1);
+  }
 
   const handleInput = (e) => {
     const name = e.target.name;
@@ -30,11 +35,12 @@ const UiForm = () => {
     setSubmitted(true);
     if(submitted === true){
       setRecord([...record, newrecord]);
-      setSuccessmessage(true);
+      setSuccessMessage(true);
     }
     else{
       setFormError(validate(userregistration));
     }
+    
     setUserregistration({ firstname: "", lastname: "", email: "" });
   };
 
@@ -65,7 +71,7 @@ const UiForm = () => {
                 type="text"
                 placeholder="Enter First Name"
             />
-            <p className="error-message">{formerror.firstname}</p>
+            <p style={{display: counter === 1 ? "block" : "none"}} className="error-message">{formerror.firstname}</p>
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -77,11 +83,11 @@ const UiForm = () => {
                 type="text"
                 placeholder="Enter Last Name"
             />
-            <p className="error-message">{formerror.lastname}</p>
+            <p style={{display: counter === 1 ? "block" : "none"}}  className="error-message">{formerror.lastname}</p>
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Last Name</Form.Label>
+            <Form.Label>Email</Form.Label>
             <Form.Control
                 name="email"
                 value={userregistration.email}
@@ -89,12 +95,13 @@ const UiForm = () => {
                 type="email"
                 placeholder="Enter Email"
             />
-            <p className="error-message">{formerror.email}</p>
+            <p style={{display: counter === 1 ? "block" : "none"}}  className="error-message">{formerror.email}</p>
             </Form.Group>
 
-            <Button variant="primary" type="submit">
+            <Button onClick={handleCounter} variant="primary" type="submit">
             Submit
             </Button>
+            {/* <p>{counter}</p> */}
         </Form>
         <div style={{display: record.length === 0 ? "none" : "block"}}  className="form-data-content">
             <div className="form-data">
